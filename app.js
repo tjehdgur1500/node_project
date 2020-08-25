@@ -1,13 +1,15 @@
-const http = require("http");
+var express = require("express");
+var app = express();
 
-const hostname = "127.0.0.1";
-const port = 3000;
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 
-http
-  .createServer((req, res) => {
-    res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end("Hello World\n");
-  })
-  .listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-  });
+app.get("/", function (req, res, error) {
+  res.render("home");
+});
+app.get("/login", function (req, res, error) {
+  res.render("login");
+});
+app.listen(3000, function () {
+  console.log("Connected 3000 port");
+});
