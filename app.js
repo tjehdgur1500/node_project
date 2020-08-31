@@ -1,4 +1,5 @@
 var express = require("express");
+var path = require("path");
 var app = express();
 
 app.use(express.static("public"));
@@ -11,6 +12,8 @@ app.get("/", function (req, res, error) {
   }
   res.render("home", { title: fors });
 });
+
+// query string 방식 query 프로퍼티로 받음.
 app.get("/login", function (req, res, error) {
   let users = ["node js", "express", "조금더 유연한 방법의 연결"];
   let output = `
@@ -22,6 +25,14 @@ app.get("/login", function (req, res, error) {
   res.send(output);
   // res.render("login");
 });
+
+// 시멘틱 url 방식  parmas 프로퍼티로 받음.
+// >> 게시판 생성시 동적으로 url을 만들어줄 수 있을것 같다.
+// 쿼리스트링도 유용하게 값을 담을 수 있다.
+app.get("/topic/:notice/:id", function (req, res, next) {
+  res.send(req.params.notice + "," + req.params.id);
+});
+
 app.listen(3000, function () {
   console.log("Connected 3000 port");
 });
