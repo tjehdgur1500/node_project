@@ -7,6 +7,15 @@ app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 app.set("view engine", "ejs");
 
+app.get("/", function (req, res, error) {
+  var id = req.body.id;
+  var description = req.body.description;
+  res.render("home", {
+    id : id,
+    description : description
+  });
+});
+
 app.get("/login", function (req, res, next) {
   res.render("login");
 });
@@ -19,14 +28,7 @@ app.post("/login_success", function (req, res, next) {
     description: description,
   });
 });
-app.get("/", function (req, res, error) {
-  var id = req.body.id;
-  var description = req.body.description;
-  res.render("home", {
-    id : id,
-    description : description
-  });
-});
+
 
 
 app.get("/topic/:id", function (req, res, error) {
