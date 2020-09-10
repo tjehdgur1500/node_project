@@ -1,12 +1,24 @@
 const express = require("express");
+const fs = require("fs");
 const app = express();
 app.set("views", "./views_file");
 app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/topic/new", function (req, res, next) {
   res.render("new");
 });
 app.post("/topic", function (req, res, next) {
-  res.send("hi");
+  let title = req.body.title;
+  let description = req.body.description;
+  fs.writeFile("data/" + title, description, function (err) {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+    }
+    res.send("Success!");
+  });
 });
 app.listen(3000, function () {
   console.log("Connected , 3000 port!!!");
