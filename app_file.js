@@ -9,7 +9,19 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/topic/new", function (req, res, next) {
   res.render("new");
 });
-app.post("/topic", function (req, res, next) {
+
+app.get("/topic", function(req, res, next){
+  fs.readdir('data/', function(err, files){
+    if(err){
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+    }
+
+    res.render("view", {topics:files});
+  });
+});
+
+app.post("/topic/", function (req, res, next) {
   let title = req.body.title;
   let description = req.body.description;
   fs.writeFile("data/" + title, description, function (err) {
