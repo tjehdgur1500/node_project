@@ -10,14 +10,31 @@ app.get("/topic/new", function (req, res, next) {
   res.render("new");
 });
 
-app.get("/topic", function(req, res, next){
-  fs.readdir('data/', function(err, files){
-    if(err){
+app.get("/topic", function (req, res, next) {
+  fs.readdir("data/", function (err, files) {
+    if (err) {
       console.log(err);
       res.status(500).send("Internal Server Error");
     }
+    // 동일한 ejs에 보내는 data들은 같아야한다.
+    res.render("view", {topics:files, title: "", description:"" });
+  });
+});
 
-    res.render("view", {topics:files});
+app.get("/topic/:id", function (req, res, next) {
+  let id = req.params.id;
+  fs.readdir("data/", function (err, files) {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+    }
+    fs.readFile("data/" + id, "utf8", function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+      }
+      res.render("view", {topics:files, title: id, description:data });
+    });
   });
 });
 
