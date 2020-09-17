@@ -1,3 +1,4 @@
 *{margin:0;padding:0;box-sizing: border-box;}
 html,body{height:100%;}
 .inner__title{text-align:center;font-size:3rem;}
+.btn{background:#111;color:#fff;}

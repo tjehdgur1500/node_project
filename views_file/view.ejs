@@ -11,7 +11,7 @@
   .btn_black > a {color:#fff;}
 </style>
 <body>
-    <h1>Server side javascript</h1>
+    <h1><a href="/topic">Server side javascript</a></h1>
     <ul>
       <% topics.forEach(file => { %>
        <li><a href="/topic/<%= file %>" ><%= file %></a></li>
@@ -21,6 +21,6 @@
       <h2><%= title %> </h2>
       <p><%= description %></p>
     </article>
-    <p class="btn"><a href="/topic/new">글쓰기</a></p>
+    <p class="btn_black"><a href="/topic/new">글쓰기</a></p>
 </body>
 </html>

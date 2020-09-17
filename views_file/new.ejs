@@ -5,16 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>form</title>
   </head>
+  <style>
+    a{text-decoration: none;}
+    .btn_black{display:block;width:120px;line-height:2.5;background-color: #333;text-align: center;}
+    .btn_black > a {color:#fff;}
+  </style>
   <body>
-    <h1>your first form</h1>
+    <h1><a href="/topic">Server side javascript</a></h1>
+    <ul>
+      <% topics.forEach(file => { %>
+      <li><a href="/topic/<%= file %>"><%= file %></a></li>
+      <% }) %>
+    </ul>
     <form action="/topic" method="POST">
-        <p>
-            <input type="text" name="title" placeholder="your title">
-        </p>
-        <p>
-            <textarea name="description" id="" cols="30" rows="10"></textarea>
-        </p>
-        <input type="submit" value="제출">
+      <p>
+        <input type="text" name="title" placeholder="your title" />
+      </p>
+      <p>
+        <textarea name="description" id="" cols="30" rows="10"></textarea>
+      </p>
+      <input type="submit" value="제출" />
+      <a href="/topic">취소</a>
     </form>
   </body>
 </html>
