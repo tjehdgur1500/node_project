@@ -5,6 +5,7 @@ const fs = require("fs");
 const template = require("./lib/template.js");
 const path = require("path");
 const sanitizeHtml = require("sanitize-html");
+const qs = require("querystring");
 
 app.get("/", (req, res) => {
   fs.readdir("./data", function (error, filelist) {
@@ -20,7 +21,7 @@ app.get("/", (req, res) => {
     res.send(html);
   });
 });
-app.get("/:pageId", (req, res) => {
+app.get("/page/:pageId", (req, res) => {
   fs.readdir("./data", function (error, filelist) {
     var filteredId = path.parse(req.params.pageId).base;
     fs.readFile(`data/${filteredId}`, "utf8", function (err, description) {
@@ -45,6 +46,47 @@ app.get("/:pageId", (req, res) => {
     });
   });
 });
+
+app.get("/create", (req, res) => {
+  fs.readdir("./data", function (error, filelist) {
+    var title = "WEB - create";
+    var list = template.list(filelist);
+    var html = template.HTML(
+      title,
+      list,
+      `
+          <form action="/create" method="post">
+            <p><input type="text" name="title" placeholder="title"></p>
+            <p>
+              <textarea name="description" placeholder="description"></textarea>
+            </p>
+            <p>
+              <input type="submit">
+            </p>
+          </form>
+        `,
+      ""
+    );
+    res.send(html);
+  });
+});
+
+app.post("/create", (req, res) => {
+  var body = "";
+  req.on("data", function (data) {
+    body = body + data;
+  });
+  req.on("end", function () {
+    var post = qs.parse(body);
+    var title = post.title;
+    var description = post.description;
+    fs.writeFile(`data/${title}`, description, "utf8", function (err) {
+      res.writeHead(302, { Location: `/?id=${title}` });
+      res.end();
+    });
+  });
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
