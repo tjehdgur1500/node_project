@@ -8,7 +8,9 @@ const sanitizeHtml = require("sanitize-html");
 const qs = require("querystring");
 const bodyParser = require("body-parser");
 const compression = require("compression");
+var helmet = require("helmet");
 
+app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(compression());

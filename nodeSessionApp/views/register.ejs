@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>회원가입 데이터샘플 넣기</title>
+    .
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>MYSQL 사용</h1>
+    <p>Welcome to register</p>
+
+    <p>아이디 : <input type="text" name="us_id" /></p>
+    <p>비밀번호 : <input type="text" name="us_pw" /></p>
+    <p>이메일 : <input type="email" name="us_email" /></p>
+    <button type="submit" onclick="insertUser()"></button>
+    <script>
+      function insertUser() {
+        let us_id = $("input[name='us_id']").val(),
+          us_pw = $("input[name='us_pw']").val(),
+          us_email = $("input[name='us_email']").val();
+
+        $.ajax({
+          url: "/register",
+          type: "POST",
+          data: {
+            us_id: us_id,
+            us_pw: us_pw,
+            us_email: us_email,
+          },
+          success: function (json_data) {
+            if (json_data.flag == "success") {
+              alert("회원가입 완료");
+              location.reload();
+            }
+          },
+          error : function(jqXHR, textStatus, errorThrown){
+            console.log(jqXHR, textStatus, errorThrown)
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
